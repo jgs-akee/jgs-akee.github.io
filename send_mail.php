@@ -111,7 +111,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $headers .= "From: $from_name <$from_email>" . "\r\n";
     $headers .= "Reply-To: $email" . "\r\n";
 
-    if (mail($_ENV['SMTP_TO'], $subject, $email_content, $headers, "-f $from_email")) {
+    if (mail('info@jgs-akee.de', $subject, $email_content, $headers, "-f $from_email")) {
         http_response_code(200);
         echo "Nachricht erfolgreich gesendet.";
     } else {
