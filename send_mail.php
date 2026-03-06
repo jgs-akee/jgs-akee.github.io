@@ -29,18 +29,66 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     }
 
-    $subject = "Neue Anfrage von $name (JGS Akee)";
-    $email_content = "Name: $name\n";
-    $email_content .= "Email: $email\n";
-    $email_content .= "Telefon: $phone\n\n";
-    $email_content .= "Nachricht:\n$message\n";
+    $subject = "⚡ Neue Projektanfrage: $name";
+    
+    // HTML Email Template
+    $email_content = "
+    <html>
+    <head>
+        <style>
+            body { font-family: 'Arial', sans-serif; line-height: 1.6; color: #333; }
+            .container { max-width: 600px; margin: 20px auto; border: 1px solid #eee; border-radius: 8px; overflow: hidden; }
+            .header { background: #0a0a0a; color: #F5A800; padding: 20px; text-align: center; }
+            .content { padding: 30px; }
+            .field { margin-bottom: 15px; border-bottom: 1px solid #f9f9f9; padding-bottom: 8px; }
+            .label { font-weight: bold; color: #666; font-size: 12px; text-transform: uppercase; display: block; }
+            .value { font-size: 16px; color: #111; display: block; margin-top: 4px; }
+            .footer { background: #f9f9f9; padding: 15px; text-align: center; font-size: 12px; color: #999; }
+        </style>
+    </head>
+    <body>
+        <div class='container'>
+            <div class='header'>
+                <h1>JGS Akee</h1>
+                <p>Neue Online-Anfrage</p>
+            </div>
+            <div class='content'>
+                <div class='field'>
+                    <span class='label'>Name:</span>
+                    <span class='value'>$name</span>
+                </div>
+                <div class='field'>
+                    <span class='label'>E-Mail:</span>
+                    <span class='value'>$email</span>
+                </div>
+                <div class='field'>
+                    <span class='label'>Telefon:</span>
+                    <span class='value'>$phone</span>
+                </div>
+                <div class='field' style='border: none;'>
+                    <span class='label'>Nachricht:</span>
+                    <div style='background: #f5f5f5; padding: 15px; border-radius: 5px; margin-top: 10px;'>
+                        " . nl2br($message) . "
+                    </div>
+                </div>
+            </div>
+            <div class='footer'>
+                Diese E-Mail wurde über das Kontaktformular auf jgs-akee.de gesendet.
+            </div>
+        </div>
+    </body>
+    </html>";
 
-    $headers = "From: " . $_ENV['SMTP_FROM'] . "\r\n";
-    $headers .= "Reply-To: $email\r\n";
+    // Setze Content-Type für HTML-E-Mails
+    $headers = "MIME-Version: 1.0" . "\r\n";
+    $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+    
+    // Definiere den Absender klarer
+    $from_name = "JGS Akee Webpage";
+    $from_email = $_ENV['SMTP_FROM'] ?: 'contact-form@jgs-akee.de';
+    $headers .= "From: $from_name <$from_email>" . "\r\n";
+    $headers .= "Reply-To: $email" . "\r\n";
 
-    // Hinweis: Für echten SMTP-Versand via Ionos (Port 465/SSL) 
-    // sollte idealerweise PHPMailer verwendet werden. 
-    // Hier nutzen wir mail() als Fallback, falls der Server konfiguriert ist.
     if (mail('inthusan@gunasiri.de', $subject, $email_content, $headers)) {
         http_response_code(200);
         echo "Nachricht erfolgreich gesendet.";
