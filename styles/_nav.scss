@@ -1,0 +1,79 @@
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.2rem 4rem;
+    background: rgba(248, 247, 244, 0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    transition: all .3s ease;
+
+    .nav-logo {
+        display: flex;
+        align-items: center;
+        gap: .8rem;
+
+        svg {
+            width: 38px;
+            height: 38px;
+        }
+    }
+
+    .nav-brand {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.1rem;
+        font-weight: 700;
+        letter-spacing: .05em;
+    }
+
+    .nav-links {
+        display: flex;
+        gap: 2.5rem;
+        list-style: none;
+
+        a {
+            text-decoration: none;
+            color: var(--black);
+            font-size: .88rem;
+            font-weight: 400;
+            letter-spacing: .03em;
+            transition: color .2s;
+
+            &:hover {
+                color: var(--yellow);
+            }
+        }
+    }
+
+    .nav-cta {
+        background: var(--black);
+        color: var(--white);
+        padding: .6rem 1.4rem;
+        border-radius: 50px;
+        font-size: .85rem;
+        font-weight: 500;
+        text-decoration: none;
+        transition: background .2s, transform .15s;
+
+        &:hover {
+            background: var(--yellow);
+            color: var(--black);
+            transform: scale(1.03);
+        }
+    }
+}
+
+@media(max-width: 900px) {
+    nav {
+        padding: 1rem 1.8rem;
+
+        .nav-links {
+            display: none;
+        }
+    }
+}

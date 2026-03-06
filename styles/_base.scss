@@ -1,0 +1,45 @@
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--white);
+    color: var(--black);
+    overflow-x: hidden;
+}
+
+.reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity .8s ease, transform .8s ease;
+
+    &.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.section-label {
+    font-size: .75rem;
+    letter-spacing: .3em;
+    text-transform: uppercase;
+    color: var(--yellow);
+    margin-bottom: 1rem;
+}
+
+.section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 5vw, 4rem);
+    font-weight: 700;
+    line-height: 1.1;
+    max-width: 600px;
+}

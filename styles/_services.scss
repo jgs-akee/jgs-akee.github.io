@@ -1,0 +1,114 @@
+.services {
+    padding: 9rem 4rem;
+    background: var(--black);
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, transparent, var(--yellow), transparent);
+    }
+
+    .section-title {
+        color: var(--white);
+    }
+
+    .services-header {
+        margin-bottom: 5rem;
+    }
+
+    .services-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5px;
+        border: 1.5px solid rgba(255, 255, 255, .06);
+        border-radius: 20px;
+        overflow: hidden;
+    }
+
+    .service-card {
+        padding: 3rem 2.5rem;
+        background: rgba(255, 255, 255, .02);
+        border-right: 1.5px solid rgba(255, 255, 255, .06);
+        border-bottom: 1.5px solid rgba(255, 255, 255, .06);
+        transition: background .3s, transform .3s;
+        cursor: default;
+        position: relative;
+        overflow: hidden;
+
+        &:hover {
+            background: rgba(245, 168, 0, .05);
+            transform: translateY(-4px);
+
+            &::after {
+                transform: scaleX(1);
+            }
+        }
+
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--yellow);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform .4s ease;
+        }
+
+        .service-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            background: rgba(245, 168, 0, .12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.6rem;
+
+            svg {
+                width: 26px;
+                height: 26px;
+            }
+        }
+
+        h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: .8rem;
+        }
+
+        p {
+            font-size: .9rem;
+            color: rgba(255, 255, 255, .45);
+            line-height: 1.7;
+        }
+
+        .service-tag {
+            display: inline-block;
+            margin-top: 1.2rem;
+            font-size: .72rem;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: var(--yellow);
+            border: 1px solid rgba(245, 168, 0, .3);
+            padding: .3rem .8rem;
+            border-radius: 20px;
+        }
+    }
+}
+
+@media(max-width: 900px) {
+    .services {
+        padding: 6rem 1.8rem;
+    }
+}

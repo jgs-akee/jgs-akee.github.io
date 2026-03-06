@@ -1,0 +1,6 @@
+.DS_Store
+node_modules/
+.env
+styles/*.css.map
+.sass-cache/
+*.log
