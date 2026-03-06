@@ -22,10 +22,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = filter_var(trim($_POST["email"]), FILTER_SANITIZE_EMAIL);
     $phone = strip_tags(trim($_POST["phone"]));
     $message = strip_tags(trim($_POST["message"]));
+    
+    // Honeypot check (must be empty)
+    $honeypot = $_POST["website"] ?? '';
+    
+    // Math check
+    $spam_check = $_POST["spam_check"] ?? '';
+    $spam_answer = $_POST["spam_answer"] ?? '';
+
+    if (!empty($honeypot)) {
+        // Silent fail for bots
+        http_response_code(200);
+        echo "Nachricht erfolgreich gesendet.";
+        exit;
+    }
 
     if (empty($name) || empty($message) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
         http_response_code(400);
-        echo "Bitte füllen Sie alle Felder korrekt aus.";
+        echo "Bitte füllen Sie alle erforderlichen Felder aus.";
+        exit;
+    }
+    
+    // Simple verification for the manual spam check
+    // We expect the sum to match what we send in the hidden field or just a fixed check
+    if ($spam_check !== $spam_answer) {
+        http_response_code(400);
+        echo "Die Sicherheitsabfrage wurde falsch beantwortet.";
         exit;
     }
 
@@ -89,7 +111,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $headers .= "From: $from_name <$from_email>" . "\r\n";
     $headers .= "Reply-To: $email" . "\r\n";
 
-    if (mail($_ENV['SMTP_TO'], $subject, $email_content, $headers)) {
+    if (mail($_ENV['SMTP_TO'], $subject, $email_content, $headers, "-f $from_email")) {
         http_response_code(200);
         echo "Nachricht erfolgreich gesendet.";
     } else {

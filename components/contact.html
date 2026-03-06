@@ -9,7 +9,22 @@
             <input type="text" name="name" placeholder="Ihr Name" required>
             <input type="tel" name="phone" placeholder="Telefonnummer">
             <input type="email" name="email" placeholder="E-Mail Adresse" required>
+
+            <!-- Honeypot field (Anti-Spam) -->
+            <input type="text" name="website" style="display:none !important" tabindex="-1" autocomplete="off">
+
             <textarea name="message" placeholder="Beschreiben Sie kurz Ihr Anliegen..." required></textarea>
+
+            <!-- Security Check -->
+            <div class="security-check" style="margin-bottom: 1.5rem; text-align: left;">
+                <label for="spam_check" id="spam_label"
+                    style="font-size: 0.85rem; color: #666; margin-bottom: 0.5rem; display: block;">Sicherheitsabfrage:
+                    Bitte rechnen Sie...</label>
+                <input type="number" name="spam_check" id="spam_check" placeholder="?" required
+                    style="width: 100px; padding: 0.6rem; border: 1px solid rgba(0,0,0,0.1); border-radius: 8px;">
+                <input type="hidden" name="spam_answer" id="spam_answer">
+            </div>
+
             <button type="submit">Anfrage senden ⚡</button>
             <div id="formStatus" style="margin-top: 1rem; font-size: 0.9rem; display: none;"></div>
         </form>
