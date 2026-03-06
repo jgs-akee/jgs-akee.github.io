@@ -40,7 +40,7 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           port: 21
-          protocol: ftp
+          protocol: ftps
           local-dir: ./
           server-dir: ./
           # Host Europe benötigt oft das explizite Ignorieren von Zertifikatsfehlern bei Subdomains
