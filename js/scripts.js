@@ -54,32 +54,33 @@ function initContactForm() {
 
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
-        
+
         const submitBtn = form.querySelector('button[type="submit"]');
         const originalBtnText = submitBtn.textContent;
-        
+        const formData = new FormData(form);
+
         submitBtn.disabled = true;
         submitBtn.textContent = 'Wird gesendet...';
-        
-        // This is a placeholder for actual SMTP implementation
-        // Since we need a backend for SMTP, we simulate success here.
-        // For a real implementation, you would use a service like Formspree, 
-        // a Netlify function, or a custom Node/PHP backend.
-        
+
         try {
-            // Simulate API call
-            await new Promise(resolve => setTimeout(resolve, 1500));
-            
-            status.style.display = 'block';
-            status.style.color = '#4CAF50';
-            status.textContent = '✓ Vielen Dank! Ihre Nachricht wurde erfolgreich gesendet.';
-            
-            submitBtn.textContent = '✓ Gesendet';
-            form.reset();
+            const response = await fetch('send_mail.php', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (response.ok) {
+                status.style.display = 'block';
+                status.style.color = '#4CAF50';
+                status.textContent = '✓ Vielen Dank! Ihre Nachricht wurde erfolgreich gesendet.';
+                submitBtn.textContent = '✓ Gesendet';
+                form.reset();
+            } else {
+                throw new Error('Server respond mit Fehler');
+            }
         } catch (error) {
             status.style.display = 'block';
             status.style.color = '#FF5252';
-            status.textContent = '❌ Fehler: Nachricht konnte nicht gesendet werden.';
+            status.textContent = '❌ Fehler: Nachricht konnte nicht gesendet werden. Bitte versuchen Sie es später erneut.';
             submitBtn.disabled = false;
             submitBtn.textContent = originalBtnText;
         }
