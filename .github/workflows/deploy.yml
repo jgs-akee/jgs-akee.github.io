@@ -33,14 +33,14 @@ jobs:
           echo "SMTP_FROM=${{ secrets.SMTP_FROM }}" >> .env
           echo "SMTP_TO=${{ secrets.SMTP_TO }}" >> .env
 
-      - name: Deploy to Server via SFTP
+      - name: Deploy to Server via FTPS
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          protocol: sftp
-          port: 22
+          protocol: ftps
+          port: 21
           # Wir schliessen lokale Konfig-Dateien aus, die auf dem Server nicht gebraucht werden
           exclude: |
             **/.git*
