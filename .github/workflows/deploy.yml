@@ -33,19 +33,23 @@ jobs:
           echo "SMTP_FROM=${{ secrets.SMTP_FROM }}" >> .env
           echo "SMTP_TO=${{ secrets.SMTP_TO }}" >> .env
 
-      - name: Deploy to Server via FTPS
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      - name: Deploy to Server via SFTP
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          protocol: ftps
-          port: 21
-          # Wir schliessen lokale Konfig-Dateien aus, die auf dem Server nicht gebraucht werden
+          port: 22
+          local_path: './'
+          # Host Europe Pfad ist oft / oder /www/ - wir starten mit ./
+          remote_path: './'
+          sftp_only: true
+          delete_remote_files: false
           exclude: |
-            **/.git*
-            **/.git*/**
-            **/node_modules/**
+            .git*
+            .git*/**
+            node_modules/**
             styles/*.scss
             .env.example
             README.md
+            .env
