@@ -35,6 +35,7 @@
         line-height: 1.0;
         letter-spacing: -.02em;
         max-width: 900px;
+        margin-inline: auto;
         opacity: 0;
         transform: translateY(30px);
         animation: fadeUp .8s .35s ease forwards;
@@ -51,6 +52,7 @@
         color: var(--gray);
         font-weight: 300;
         max-width: 520px;
+        margin-inline: auto;
         line-height: 1.7;
         opacity: 0;
         transform: translateY(20px);
