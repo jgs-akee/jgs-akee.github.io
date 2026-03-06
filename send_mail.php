@@ -89,7 +89,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $headers .= "From: $from_name <$from_email>" . "\r\n";
     $headers .= "Reply-To: $email" . "\r\n";
 
-    if (mail('inthusan@gunasiri.de', $subject, $email_content, $headers)) {
+    if (mail($_ENV['SMTP_TO'], $subject, $email_content, $headers)) {
         http_response_code(200);
         echo "Nachricht erfolgreich gesendet.";
     } else {
