@@ -41,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Hinweis: Für echten SMTP-Versand via Ionos (Port 465/SSL) 
     // sollte idealerweise PHPMailer verwendet werden. 
     // Hier nutzen wir mail() als Fallback, falls der Server konfiguriert ist.
-    if (mail($_ENV['SMTP_TO'], $subject, $email_content, $headers)) {
+    if (mail('inthusan@gunasiri.de', $subject, $email_content, $headers)) {
         http_response_code(200);
         echo "Nachricht erfolgreich gesendet.";
     } else {
