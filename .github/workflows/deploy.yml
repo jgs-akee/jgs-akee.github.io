@@ -1,15 +1,12 @@
-name: Deploy to GitHub Pages
+name: Secure SFTP Deployment
 
 on:
   push:
     branches:
       - master
 
-permissions:
-  contents: write
-
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -26,9 +23,29 @@ jobs:
       - name: Compile CSS
         run: sass styles/style.scss styles/style.css
 
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Create .env file
+        run: |
+          echo "SMTP_HOST=${{ secrets.SMTP_HOST }}" >> .env
+          echo "SMTP_PORT=${{ secrets.SMTP_PORT }}" >> .env
+          echo "SMTP_SECURE=${{ secrets.SMTP_SECURE }}" >> .env
+          echo "SMTP_USER=${{ secrets.SMTP_USER }}" >> .env
+          echo "SMTP_PASS=${{ secrets.SMTP_PASS }}" >> .env
+          echo "SMTP_FROM=${{ secrets.SMTP_FROM }}" >> .env
+          echo "SMTP_TO=${{ secrets.SMTP_TO }}" >> .env
+
+      - name: Deploy to Server via SFTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./
-          publish_branch: gh-pages
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: sftp
+          port: 22
+          # Wir schliessen lokale Konfig-Dateien aus, die auf dem Server nicht gebraucht werden
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            styles/*.scss
+            .env.example
+            README.md
