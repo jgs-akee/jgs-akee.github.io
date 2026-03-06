@@ -33,22 +33,23 @@ jobs:
           echo "SMTP_FROM=${{ secrets.SMTP_FROM }}" >> .env
           echo "SMTP_TO=${{ secrets.SMTP_TO }}" >> .env
 
-      - name: Deploy to Server via SFTP
-        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+      - name: Deploy to Server via FTP (Host Europe)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          port: 22
-          local_path: './'
-          # Host Europe Pfad ist oft / oder /www/ - wir starten mit ./
-          remote_path: './'
-          sftp_only: true
-          delete_remote_files: false
+          port: 21
+          protocol: ftp
+          local-dir: ./
+          server-dir: ./
+          # Host Europe benötigt oft das explizite Ignorieren von Zertifikatsfehlern bei Subdomains
+          # oder die Einstellung auf 'ftp' mit TLS
+          security: loose 
           exclude: |
-            .git*
-            .git*/**
-            node_modules/**
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
             styles/*.scss
             .env.example
             README.md
