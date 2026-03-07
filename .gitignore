@@ -4,3 +4,4 @@ node_modules/
 styles/*.css.map
 .sass-cache/
 *.log
+.vscode/

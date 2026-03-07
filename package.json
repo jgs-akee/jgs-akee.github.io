@@ -1,0 +1,18 @@
+{
+    "name": "jgs-akee",
+    "version": "1.0.0",
+    "description": "Professional Electrical Installation Website",
+    "main": "index.php",
+    "scripts": {
+        "dev": "concurrently \"npm run php\" \"npm run watch:sass\" \"npm run serve\"",
+        "serve": "browser-sync start --proxy \"localhost:8000\" --files \"**/*.php, components/*.html, styles/*.css, js/*.js\" --no-notify --port 3000",
+        "watch:sass": "sass --watch styles/style.scss:styles/style.css --no-source-map",
+        "build:sass": "sass styles/style.scss:styles/style.css --style compressed --no-source-map",
+        "php": "php -S localhost:8000"
+    },
+    "devDependencies": {
+        "browser-sync": "^3.0.3",
+        "concurrently": "^9.1.0",
+        "sass": "^1.83.0"
+    }
+}

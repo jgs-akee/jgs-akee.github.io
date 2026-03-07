@@ -157,6 +157,7 @@ nav .nav-cta:hover {
   line-height: 1;
   letter-spacing: -0.02em;
   max-width: 900px;
+  margin-inline: auto;
   opacity: 0;
   transform: translateY(30px);
   animation: fadeUp 0.8s 0.35s ease forwards;
@@ -171,6 +172,7 @@ nav .nav-cta:hover {
   color: var(--gray);
   font-weight: 300;
   max-width: 520px;
+  margin-inline: auto;
   line-height: 1.7;
   opacity: 0;
   transform: translateY(20px);
@@ -193,8 +195,8 @@ nav .nav-cta:hover {
   animation: fadeUp 0.9s 0.85s ease forwards;
 }
 .hero .hero-logo-wrap {
-  width: 220px;
-  height: 220px;
+  width: 320px;
+  height: 320px;
   background: var(--black);
   border-radius: 50%;
   display: flex;
@@ -754,5 +756,3 @@ footer .foot-links a:hover {
     align-items: flex-start;
   }
 }
-
-/*# sourceMappingURL=style.css.map */

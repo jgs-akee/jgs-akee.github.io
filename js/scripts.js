@@ -7,7 +7,72 @@ document.addEventListener('DOMContentLoaded', () => {
     initNavbarScroll();
     initContactForm();
     initSpamCheck();
+    initCounterAnimation();
 });
+
+/**
+ * Animate numbers counting up
+ */
+function initCounterAnimation() {
+    const stats = document.querySelectorAll('.stat-number');
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const target = entry.target;
+                const finalValue = target.getAttribute('data-value');
+                const suffix = target.getAttribute('data-suffix') || '';
+
+                if (finalValue && !target.classList.contains('animated')) {
+                    animateNumber(target, parseInt(finalValue), suffix);
+                    target.classList.add('animated');
+                }
+            }
+        });
+    }, { threshold: 0.5 });
+
+    stats.forEach(stat => {
+        // Prepare data attributes from text content if not already set
+        if (!stat.getAttribute('data-value')) {
+            const text = stat.textContent.trim();
+            const match = text.match(/(\d+)(.*)/);
+            if (match) {
+                stat.setAttribute('data-value', match[1]);
+                stat.setAttribute('data-suffix', match[2]);
+                stat.textContent = '0' + match[2]; // Start at 0
+            }
+        }
+        observer.observe(stat);
+    });
+}
+
+/**
+ * Helper to animate a single number
+ */
+function animateNumber(element, finalValue, suffix) {
+    let startTimestamp = null;
+    const duration = 2000; // 2 seconds
+
+    const step = (timestamp) => {
+        if (!startTimestamp) startTimestamp = timestamp;
+        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+
+        // Easing function: outQuart
+        const easeProgress = 1 - Math.pow(1 - progress, 4);
+        const currentValue = Math.floor(easeProgress * finalValue);
+
+        element.textContent = currentValue + suffix;
+
+        if (progress < 1) {
+            window.requestAnimationFrame(step);
+        } else {
+            element.textContent = finalValue + suffix;
+        }
+    };
+
+    window.requestAnimationFrame(step);
+}
+
 
 /**
  * Reveal elements on scroll
